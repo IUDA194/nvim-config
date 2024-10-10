@@ -107,11 +107,11 @@ cmp.setup({
     end, { 'i', 'c' }),
   }),
   sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-  }, {
-    { name = 'buffer' },
-  }),
+  { name = 'nvim_lsp' },
+  { name = 'buffer' },
+  { name = 'path' },
+  { name = 'luasnip' },
+}),
   formatting = {
     format = lspkind.cmp_format({
       mode = 'symbol_text',
@@ -170,6 +170,18 @@ local on_attach = function(client, bufnr)
     end
   })
 end
+
+nvim_lsp.clangd.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
+  cmd = { "clangd", "--background-index", "--clang-tidy", "--suggest-missing-includes" },
+  settings = {
+    clangd = {
+      fallbackFlags = { "-std=c++17" },
+    },
+  },
+}
+
 
 nvim_lsp.pyright.setup {
   settings = {
